@@ -1,6 +1,6 @@
 from warnings import warn
 import heapq
-
+from math import exp
 
 class No:
     def __init__(self, posicao=None, pai=None):
@@ -48,7 +48,6 @@ def aestrela(sala, inicio, fim, diagonal=False):
         it += 1
 
         if it > max_it:
-            warn("giving up on pathfinding too many iterations")
             return retorna_caminho(no_atual)
 
         no_atual = heapq.heappop(lista_aberta)
@@ -67,7 +66,7 @@ def aestrela(sala, inicio, fim, diagonal=False):
                     len(sala[len(sala) - 1]) - 1) or posicao_no[1] < 0:
                 continue
 
-            if sala[posicao_no[0]][posicao_no[1]] == 100:
+            if sala[posicao_no[0]][posicao_no[1]] == 0:
                 continue
 
             novo = No(posicao_no, no_atual)
@@ -83,7 +82,7 @@ def aestrela(sala, inicio, fim, diagonal=False):
             # Create the f, g, and h values
             filho.g = no_atual.g + 1
             filho.h = ((filho.posicao[0] - no_final.posicao[0]) ** 2) + (
-                        (filho.posicao[1] - no_final.posicao[1]) ** 2) + sala[filho.posicao[0]][filho.posicao[1]]
+                        (filho.posicao[1] - no_final.posicao[1]) ** 2) + exp(sala[filho.posicao[0]][filho.posicao[1]])
             filho.f = filho.g + filho.h
 
             # Child is already in the open list
@@ -98,12 +97,24 @@ def aestrela(sala, inicio, fim, diagonal=False):
     return None
 
 
-sala = [[100, 100, 1, 1, 100, 100],
-        [10, 10, 1, 1, 5, 5],
-        [10, 10, 100, 100, 5, 5],
-        [100, 100, 1, 1, 5, 5],
-        [7, 7, 7, 7, 7, 7]]
+sala = [[0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 10, 0, 1, 10, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0],
+        [0, 10, 10, 10, 0, 1, 10, 10, 10, 10, 10, 10, 10, 10, 0, 1, 1, 1, 1, 0],
+        [0, 10, 10, 10, 0, 1, 10, 10, 10, 10, 10, 10, 10, 10, 0, 1, 1, 1, 1, 0],
+        [0, 10, 10, 10, 0, 1, 10, 10, 10, 10, 10, 10, 10, 10, 0, 1, 1, 1, 1, 0],
+        [0, 10, 10, 10,10, 1, 10, 10, 10, 10, 10, 10, 10, 10, 0, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+        [0, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 0],
+        [0, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 0],
+        [0, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 0],
+        [0, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+        [0, 0, 0, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 0],
+        [0, 0, 0, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 5, 0],
+        [0, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 5, 0],
+        [0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0],
+        [0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-start = (0, 3)
-end = (4, 3)
-print(aestrela(sala, start, end))
+start = (0, 4)
+end = (13, 18)
+print(aestrela(sala, start, end, True))
