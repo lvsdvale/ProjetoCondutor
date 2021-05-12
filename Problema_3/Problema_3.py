@@ -12,33 +12,8 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 data = pd.read_csv('Dados_geladeira.csv')
 x = data.drop('Estado', axis=1)
 y = data['Estado']
-X_Train,X_Test,Y_Train,Y_Test=train_test_split(x,y,test_size=.3)
-modelknn = KNeighborsClassifier(n_neighbors=3)
-modellr = LogisticRegression()
+X_Train,X_Test,Y_Train,Y_Test=train_test_split(x, y, test_size=.3, random_state=20)
 modeltree = DecisionTreeClassifier()
-modelknn.fit(X_Train,Y_Train)
-modellr.fit(X_Train,Y_Train)
-tree = modeltree.fit(X_Train,Y_Train)
-modeltree.fit(X_Train,Y_Train)
-predknn = modelknn.predict(X_Test)
-predlr = modellr.predict(X_Test)
-predtree = modeltree.predict(X_Test)
-'''
-print(classification_report(Y_Test,predknn))
-print(classification_report(Y_Test,predlr))
-print(classification_report(Y_Test,predtree))
-print(modelknn.score(X_Train,Y_Train))
-print(modelknn.score(X_Test,Y_Test))
-print(modellr.score(X_Train,Y_Train))
-print(modellr.score(X_Test,Y_Test))
-predicoes = []
-predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':230,'Corrente':1.22,'Rotação':4200,'Eficiencia':4.88,'Potência':89.6}, index=[0])))
-predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':230,'Corrente':1.05,'Rotação':6000,'Eficiencia':5.27,'Potência':82.6}, index=[0])))
-predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':230,'Corrente':1.05,'Rotação':3600,'Eficiencia':3.02,'Potência':82.4}, index=[0])))
-predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':230,'Corrente':1.05,'Rotação':4500,'Eficiencia':5.15,'Potência':100.4}, index=[0])))
-predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':130,'Corrente':1.05,'Rotação':2200,'Eficiencia':5.23,'Potência':82.8}, index=[0])))
-print(predicoes)
-'''
 pca = PCA(n_components = 2)
 X_train2 = pca.fit_transform(X_Train)
 X_Test2 = pca.fit_transform(X_Test)
@@ -55,9 +30,41 @@ plot_decision_regions(X=X_train2,
                       legend=2)
 plt.title("Decision Tree Geladeira Treino")
 plt.show()
+
 plt.title("Decision Tree Geladeira teste")
 plot_decision_regions(X=X_Test2,
                       y=yte,
                       clf=modeltree,
                       legend=2)
 plt.show()
+
+
+
+
+
+
+'''
+modelknn = KNeighborsClassifier(n_neighbors=3)
+modellr = LogisticRegression()
+modelknn.fit(X_Train,Y_Train)
+modellr.fit(X_Train,Y_Train)
+tree = modeltree.fit(X_Train,Y_Train)
+modeltree.fit(X_Train,Y_Train)
+predknn = modelknn.predict(X_Test)
+predlr = modellr.predict(X_Test)
+predtree = modeltree.predict(X_Test)
+print(classification_report(Y_Test,predknn))
+print(classification_report(Y_Test,predlr))
+print(classification_report(Y_Test,predtree))
+print(modelknn.score(X_Train,Y_Train))
+print(modelknn.score(X_Test,Y_Test))
+print(modellr.score(X_Train,Y_Train))
+print(modellr.score(X_Test,Y_Test))
+predicoes = []
+predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':230,'Corrente':1.22,'Rotação':4200,'Eficiencia':4.88,'Potência':89.6}, index=[0])))
+predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':230,'Corrente':1.05,'Rotação':6000,'Eficiencia':5.27,'Potência':82.6}, index=[0])))
+predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':230,'Corrente':1.05,'Rotação':3600,'Eficiencia':3.02,'Potência':82.4}, index=[0])))
+predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':230,'Corrente':1.05,'Rotação':4500,'Eficiencia':5.15,'Potência':100.4}, index=[0])))
+predicoes.append(modeltree.predict(pd.DataFrame({'Tensão':130,'Corrente':1.05,'Rotação':2200,'Eficiencia':5.23,'Potência':82.8}, index=[0])))
+print(predicoes)
+'''

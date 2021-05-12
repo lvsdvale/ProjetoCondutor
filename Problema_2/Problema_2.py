@@ -93,7 +93,7 @@ def aestrela(sala, inicio, fim, diagonal=False):
 
             heapq.heappush(lista_aberta, filho)
 
-    warn("Couldn't get a path to destination")
+    warn("não foi possível achar o caminho")
     return None
 
 
